@@ -1,0 +1,2 @@
+# naming-server
+discovery server
