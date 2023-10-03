@@ -33,21 +33,20 @@ jobs:
     - name: Set up QEMU
       uses: docker/setup-qemu-action@v3
       
-    - name: CheckOut code 
-      uses: actions/checkout@v3
-      
+    - name: Checkout code
+      uses: actions/checkout@v2
     - name: Login to Docker Hub
       uses: docker/login-action@v1
       with:
-        username: ${{ secrets.DOCKERHUB_USERNAME  }}
-        password: ${{ secrets.DOCKERHUB_PASSWORD }}
-      
-    - name: Build and push
-      uses: docker/build-push-action@v2
-      with:
-        context: .
-        push: true
-        tags: sriram1406/naming-server:0.0.1
+        username: ${{ env.DOCKERHUB_USERNAME }}
+        password: ${{ env.DOCKERHUB_TOKEN }}
+    - name: Build Docker image
+      run: |
+        docker build -t naming-server:0.0.1 .
+    - name: Push Docker image
+      run: |
+        docker tag myapp:latest ${{ env.DOCKER_USERNAME }}/naming-server:0.0.1
+        docker push ${{ env.DOCKER_USERNAME }}/naming-server:0.0.1
       
     
    
